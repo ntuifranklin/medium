@@ -1,4 +1,4 @@
-from commands import *
+from commands2 import *
 user = "ubuntu"
 host = "ip-172-31-94-74"
 current_dir = "~"
