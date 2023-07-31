@@ -1,5 +1,4 @@
-// Client side C/C++ program to demonstrate Socket
-// programming
+/* client.c */
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>
@@ -8,7 +7,7 @@
 #include <stdbool.h> 
 
 #define PORT 9090
-#define BUFFER_SIZE (1024)
+#define BUFFER_SIZE (50)
 
 #define LOCALHOST "127.0.0.1"
 #define END_OF_STRING '\0'

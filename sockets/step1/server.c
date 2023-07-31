@@ -1,3 +1,4 @@
+/* server.c */
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -7,17 +8,14 @@
 #include <stdbool.h> 
 
 #define PORT 9090
-#define BUFFER_SIZE (1024)
-#define MAX_CONNECTIONS (2)
+#define BUFFER_SIZE (50)
 #define END_OF_STRING '\0'
 
 
 
 int main(int argc, char const* argv[])
 {
-    int sockets[MAX_CONNECTIONS];
-    int noConnections;
-    int count;
+    
     int socketId;
     int incomingSocket, nbBytesRead, serverFileDescr;
     struct sockaddr_in serverAddress;
@@ -59,7 +57,7 @@ int main(int argc, char const* argv[])
         exit(EXIT_FAILURE);
     }
     
-    noConnections = 0;
+    
     printf("\nSERVER: Started Server and listening on port %d", PORT);
     printf("%s",serverGreetings);
 
