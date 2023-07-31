@@ -1,4 +1,5 @@
-
+// Client side C/C++ program to demonstrate Socket
+// programming
 #include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,8 +7,11 @@
 #include <unistd.h>
 #include <stdbool.h> 
 
-#define CLIENT "CLIENT"
-#include "importantconstants.h"
+#define PORT 9090
+#define BUFFER_SIZE (1024)
+
+#define LOCALHOST "127.0.0.1"
+#define END_OF_STRING '\0'
 
   
 int main(int argc, char const* argv[])
@@ -17,7 +21,7 @@ int main(int argc, char const* argv[])
     char message[BUFFER_SIZE] ;
     char buffer[BUFFER_SIZE] = { 0 };
     if ((clientFileDescriptor = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        printf("\n Socket creation error \n");
+        printf("\nCLIENT: Socket creation error \n");
         return -1;
     }
   
@@ -28,7 +32,7 @@ int main(int argc, char const* argv[])
     if (inet_pton(AF_INET, LOCALHOST, &serv_addr.sin_addr)
         <= 0) {
         printf(
-            "\nInvalid address/ Address not supported \n");
+            "\nCLIENT: Invalid address/ Address not supported \n");
         return -1;
     }
   
@@ -36,31 +40,22 @@ int main(int argc, char const* argv[])
          = connect(clientFileDescriptor, (struct sockaddr*)&serv_addr,
                    sizeof(serv_addr)))
         < 0) {
-        printf("\nConnection Failed \n");
+        printf("\nCLIENT: Connection Failed \n");
         return -1;
     }
-    memset(message, END_OF_STRING,BUFFER_SIZE);
+    char * clientGreetings = "Hey There, I am the client!\0";
     
-    message[0] = WORKREQUEST;
-    message[1] = SEPERATOR;
-    message[2] = ADD ;
-    message[3] = SEPERATOR;
-    message[4] = '1';
-    message[5] = SEPERATOR;
-    message[6] = '2';
-    if ( argc  == 4 ) {
-        message[2] = argv[1][0];
-        message[4] = argv[2][0];
-        message[6] = argv[3][0];
-    }
     
-
-    send(clientFileDescriptor, message, strlen(message), 0);
-    printf("Sent a work to server : %s\n", message);
+    printf("\nCLIENT:  Sent a client greetings to the server : %s\n", clientGreetings);
+    send(clientFileDescriptor, clientGreetings, strlen(clientGreetings), 0);
+    /* Read whatever the server sends to us on this end */
     nbBytesRead = read(clientFileDescriptor, buffer, BUFFER_SIZE);
-    printf("Received result : %s\n", buffer);
-  
-    // closing the connected socket
+
+    /* forcing the termination of the string rea with an end of string character */
+    buffer[BUFFER_SIZE-1] = END_OF_STRING;
+    printf("\nCLIENT:  Reading from the server : %s\n", buffer);
+   
+    
     close(clientFileDescriptor);
     return 0;
 }
