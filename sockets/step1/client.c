@@ -45,6 +45,18 @@ int main(int argc, char const* argv[])
     char * clientGreetings = "Hey There, I am the client!\0";
     
     
+    message[0] = WORKREQUEST;
+    message[1] = SEPERATOR;
+    message[2] = ADD ;
+    message[3] = SEPERATOR;
+    message[4] = '1';
+    message[5] = SEPERATOR;
+    message[6] = '2';
+    if ( argc  == 4 ) {
+        message[2] = argv[1][0];
+        message[4] = argv[2][0];
+        message[6] = argv[3][0];
+    }
     printf("\nCLIENT:  Sent a client greetings to the server : %s\n", clientGreetings);
     send(clientFileDescriptor, clientGreetings, strlen(clientGreetings), 0);
     /* Read whatever the server sends to us on this end */
