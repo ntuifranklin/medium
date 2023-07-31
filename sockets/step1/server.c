@@ -58,7 +58,7 @@ int main(int argc, char const* argv[])
     }
     
     
-    printf("\nSERVER: Started Server and listening on port %d", PORT);
+    printf("\nSERVER: Started Server and listening on port %d\n", PORT);
     printf("%s",serverGreetings);
 
 
