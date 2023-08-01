@@ -1,4 +1,4 @@
-
+/* serverlib.c */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,6 +52,11 @@ char * interpreteMessage(int clientId, char * message, int bufferSize) {
             case WORKREQUEST:
                 x = strlen("NEW_WORK_REQUEST") ;
                 memcpy(decodedMessage + k, "NEW_WORK_REQUEST", x);
+                k += x ;
+                break;
+            case FINISHED:
+                x = strlen("FINISHED_SESSION") ;
+                memcpy(decodedMessage + k, "FINISHED_SESSION", x);
                 k += x ;
                 break;
             default:
@@ -109,7 +114,6 @@ char * performWork(int clientId, char * message, int bufferSize) {
             } else {
                 memcpy(result, "Cannot divide by 0", strlen( "Cannot divide by 0"));
             }
-            
             break;
         case MULTIPLY:
             x = atoi((message + 4));
@@ -117,6 +121,9 @@ char * performWork(int clientId, char * message, int bufferSize) {
             z = x * y ;
             sprintf(result, "%d", z);
             break;
+        case FINISHED:
+            sprintf(result, "%s", "SESSION_COMPLETED");
+        break;
         
     }
 

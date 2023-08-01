@@ -59,6 +59,10 @@ int main(int argc, char const* argv[])
     printf("Sent a work to server : %s\n", message);
     nbBytesRead = read(clientFileDescriptor, buffer, BUFFER_SIZE);
     printf("Received result : %s\n", buffer);
+
+    // now inform server we are done
+    memset(message, FINISHED,BUFFER_SIZE-1);
+    message[BUFFER_SIZE-1] = END_OF_STRING ;
   
     // closing the connected socket
     close(clientFileDescriptor);

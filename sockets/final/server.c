@@ -1,4 +1,4 @@
-
+/* server.c */
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -100,20 +100,29 @@ int main(int argc, char const* argv[])
 
             memcpy(work[count], buffer,nbBytesRead);
             printf("\nMessage recieved from clientId %d : ", socketId);
+
             printf("%s",interpreteMessage(socketId, work[count], nbBytesRead));
+
             char * r = performWork(socketId, work[count], nbBytesRead) ;
             memcpy(result[count], r, strlen(r));
             
             printf("\nSending message to clientId: %d \n %s ", socketId, result[count]);
             send(socketId, result[count], strlen(result[count]), 0);
+            if (work[count][0] == FINISHED ) {
+                //This client is satisfied, so we close this clients connection
+                close(socketId);
+                noConnections--;
+            }
             
         } 
+        if ( noConnections == 0)
+            break ;
         
             
     }
   
     // closing the connected socket
-    close(incomingSocket);
+    //close(incomingSocket);
     // closing the listening socket
     shutdown(serverFileDescr, SHUT_RDWR);
     return 0;
