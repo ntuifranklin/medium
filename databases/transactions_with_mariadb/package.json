@@ -1,0 +1,14 @@
+{
+  "name": "transactions_with_nodejs_tutorial",
+  "version": "1.0.0",
+  "description": "Describes the usage of transactions in maria db with nodejs as back end",
+  "main": "yes",
+  "scripts": {
+    "test": "node transaction.js"
+  },
+  "author": "Franklin Nkokam Ngongang",
+  "license": "MIT",
+  "dependencies": {
+    "mariadb": "^3.2.0"
+  }
+}
