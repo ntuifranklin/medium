@@ -6,16 +6,25 @@ docker run --detach --name dbtransactions -it
 mariadb:latest
 */
 
+require('dotenv').config();
+
 const fileReader = require('fs');
 const mariadb = require('mariadb');
 const { faker } = require('@faker-js/faker');
+const { getPriority } = require('os');
 
-const pool = mariadb.createPool({
-     host: '127.0.0.1', 
-     user:'root', 
-     password: 'b1@ckh@t',
-     connectionLimit: 20
-});
+
+
+function getMariaDbPool(){
+    return mariadb.createPool({
+        host: 'localhost', 
+        user:'root', 
+        password: process.env.MARIADB_ROOT_PASSWORD,
+        connectionLimit: 20
+   });
+
+};
+exports.getMariaDbPool = getMariaDbPool;
 
 function getDatabaseCreationQueryAsSQLText() {
     return new Promise((resolve, reject) => {
@@ -38,12 +47,7 @@ function createDatabase() {
         sqlQueryTextPromise
         .then((sqlQuery) => {
                         
-            const pool = mariadb.createPool({
-                host: '127.0.0.1', 
-                user:'root', 
-                password: 'b1@ckh@t',
-                connectionLimit: 20
-            });
+            const pool = getMariaDbPool();
             dbConnectionPromise = pool.getConnection();
             dbConnectionPromise
             .then( mariaDbConn => {
@@ -140,13 +144,7 @@ function newBankAccountForNewCustomer() {
 
     return new Promise((resolve, reject) => {
         
-                
-        const pool = mariadb.createPool({
-            host: '127.0.0.1', 
-            user:'root', 
-            password: 'b1@ckh@t',
-            connectionLimit: 20
-        });
+        const pool = getMariaDbPool();
         
         /* Insert customer and user as a transaction */
         dbConnectionPromise = pool.getConnection();
