@@ -26,4 +26,5 @@ createDatabase()
     
 })
 .catch(error => console.log(error));
+console.log("\n");
 

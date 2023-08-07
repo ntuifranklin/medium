@@ -58,7 +58,7 @@ function createDatabase() {
 
                 /* We are running everyting as a transaction */
                 mariaDbConn.beginTransaction()
-                .then(resultBeginTransaction => console.log(`\nSuccess beginning transaction : ${resultBeginTransaction}`))
+                .then(resultBeginTransaction => console.log(`\nSuccess beginning transaction : ${JSON.stringify(resultBeginTransaction)}`))
                 .catch(errorBeginingTransaction => {
                     pool.end();
                     reject(`Error beginning transaction  : ${errorBeginingTransaction}`);
@@ -71,7 +71,7 @@ function createDatabase() {
                         console.log(`Running query ${eachQuery}`);
                         mariaDbConn.query(eachQuery)
                         .then(resultRuningThisQuery =>
-                            console.log(`#####\nSuccess running '${eachQuery}' : ${resultRuningThisQuery} \n#####\n`)
+                            console.log(`#####\nSuccess running '${eachQuery}' : ${JSON.stringify(resultRuningThisQuery)} \n#####\n`)
                         )
                         .catch(errorRunningThisQuery => {
                             console.log(`Error running '${eachQuery}' : ${errorRunningThisQuery}`);
@@ -85,14 +85,15 @@ function createDatabase() {
                 /* At the end of the enitre transaction, commit this as an atomic whole change */
                 mariaDbConn.commit()
                 .then(resultEndingTransaction => {
-                    console.log(resultEndingTransaction);
-                    pool.end();
+                    console.log(`Success commiting transaction : ${JSON.stringify(resultEndingTransaction)}`);
+                    
                     resolve("Successful creation of database");
                 })
                 .catch(errorEndingTransaction => {
-                    pool.end();
+                    
                     reject(errorEndingTransaction);
-                });                
+                }); 
+                pool.end();               
                 
             })
             .catch(errorReadingSqlFile => {
