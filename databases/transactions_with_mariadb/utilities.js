@@ -58,25 +58,24 @@ function createDatabase() {
 
                 /* We are running everyting as a transaction */
                 mariaDbConn.beginTransaction()
-                .then(resultBeginTransaction => console.log(`\nSuccess beginning transaction : ${JSON.stringify(resultBeginTransaction)}`))
+                .then(resultBeginTransaction => console.log(`\nSuccess beginning transaction : ${JSON.stringify(resultBeginTransaction.toString())}`))
                 .catch(errorBeginingTransaction => {
-                    pool.end();
                     reject(`Error beginning transaction  : ${errorBeginingTransaction}`);
                 });
 
-                console.log(`List of queries : ${queries}`);
+                
                 /* Run each query individually */
                 queries.forEach(eachQuery => {
                     if (eachQuery.length != 0) {
                         console.log(`Running query ${eachQuery}`);
                         mariaDbConn.query(eachQuery)
                         .then(resultRuningThisQuery =>
-                            console.log(`#####\nSuccess running '${eachQuery}' : ${JSON.stringify(resultRuningThisQuery)} \n#####\n`)
+                            console.log(`#####\nSuccess running '${eachQuery}' : ${JSON.stringify(resultRuningThisQuery.toString())} \n#####\n`)
                         )
                         .catch(errorRunningThisQuery => {
                             console.log(`Error running '${eachQuery}' : ${errorRunningThisQuery}`);
-                                mariaDbConn.rollback();
-                                reject(errorRunningThisQuery);
+                            mariaDbConn.rollback();
+                            reject(errorRunningThisQuery);
                         });
 
                     }
@@ -85,22 +84,22 @@ function createDatabase() {
                 /* At the end of the enitre transaction, commit this as an atomic whole change */
                 mariaDbConn.commit()
                 .then(resultEndingTransaction => {
-                    console.log(`Success commiting transaction : ${JSON.stringify(resultEndingTransaction)}`);
-                    
+                    console.log(`Success commiting transaction : ${JSON.stringify(resultEndingTransaction.toString())}`);
                     resolve("Successful creation of database");
                 })
                 .catch(errorEndingTransaction => {
-                    
+                    mariaDbConn.rollback();
                     reject(errorEndingTransaction);
                 }); 
-                pool.end();               
                 
+                      
             })
             .catch(errorReadingSqlFile => {
                 console.log(errorReadingSqlFile);
                 
-            })
-
+            });
+                    
+        
         })
         .catch(errorOpeningSqlfile => console.log(`${errorOpeningSqlfile}`))
     });
@@ -153,17 +152,17 @@ function newBankAccountForNewCustomer() {
         .then(dbConn => {
             /* start transactin */
             dbConn.beginTransaction().
+            then(r => console.log(r)).
             catch(e11 => {
                 console.log(e11);
-                dbConn.rollback();
                 reject(e11);
             })
 
             /* Select the database being used */
             dbConn.query("USE `ONLINEBANKING`").
+            then(r => console.log(r)).
             catch(e111 => {
                 console.log(e111);
-                dbConn.rollback();
                 reject(e111);
             });
 
@@ -178,6 +177,7 @@ function newBankAccountForNewCustomer() {
                 customerObject["SSN"],
                 customerObject["PHONENUMBER"]
             ]).
+            then(r => console.log(r)).
             catch(e12 => {
                 console.log(e12);
                 dbConn.rollback();
@@ -192,6 +192,7 @@ function newBankAccountForNewCustomer() {
                 userObject["USERNAME"],
                 userObject["PASSW"]
             ]).
+            then(r => console.log(r)).
             catch(e13 => {
                 console.log(e13);
                 dbConn.rollback();
@@ -207,24 +208,30 @@ function newBankAccountForNewCustomer() {
                 account["ACCOUNTNO"],
                 account["CUSTOMERID"],
                 account["BALANCE"]
-            ]);
+            ]).
+            then(r => console.log(r)).
+            catch(e131 => {
+                console.log(e131);
+                dbConn.rollback();
+                reject(e131);
+            });
 
             /* Finally End transaction */
             dbConn.commit().
+            then((resCommit) => {
+                console.log(`${resCommit.toString()}`);
+                resolve("Successful Opening of a Bank Account");
+            }).
             catch(e14 => {
                 console.log(e14);
                 dbConn.rollback();
                 reject(e14);
-            });
-
-            resolve("Successful Opening of a Bank Account");
-            
+            }); 
         })
         .catch(e0 => {
             console.log(e0);
             reject(e0);
-        })
-
+        });
 
     });
 } ;
