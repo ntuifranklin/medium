@@ -1,0 +1,114 @@
+
+
+Running query DROP DATABASE IF EXISTS `ONLINEBANKING`
+Running query 
+CREATE DATABASE IF NOT EXISTS `ONLINEBANKING`
+Running query 
+USE `ONLINEBANKING` 
+Running query 
+CREATE TABLE IF NOT EXISTS CUSTOMER(
+    CUSTOMERID VARCHAR(50) PRIMARY KEY,
+    FIRSTNAME VARCHAR(20) NOT NULL,
+    MIDDLENAME VARCHAR(20) DEFAULT NULL,
+    LASTNAME VARCHAR(20) NOT NULL,
+    DOB DATE NOT NULL,
+    SSN VARCHAR(100) NOT NULL,
+    PHONENUMBER VARCHAR(20) NOT NULL
+)
+Running query 
+CREATE TABLE IF NOT EXISTS USER(
+    USERID VARCHAR(50) PRIMARY KEY,
+    EMAIL VARCHAR(100) NOT NULL,
+    USERNAME VARCHAR(50) NOT NULL,
+    PASSW VARCHAR(100) NOT NULL,
+    CUSTOMERID VARCHAR(50) NOT NULL
+)
+Running query 
+CREATE TABLE IF NOT EXISTS CHECKINGACCOUNT(
+    ACCOUNTID VARCHAR(50) PRIMARY KEY,
+    ACCOUNTNO VARCHAR(20) NOT NULL,
+    CUSTOMERID VARCHAR(100) NOT NULL,
+    BALANCE FLOAT(10,0) NOT NULL
+)
+
+Success beginning transaction : "[object Object]"
+#####
+Success running 'DROP DATABASE IF EXISTS `ONLINEBANKING`' : "[object Object]" 
+#####
+
+#####
+Success running '
+CREATE DATABASE IF NOT EXISTS `ONLINEBANKING`' : "[object Object]" 
+#####
+
+#####
+Success running '
+USE `ONLINEBANKING` ' : "[object Object]" 
+#####
+
+#####
+Success running '
+CREATE TABLE IF NOT EXISTS CUSTOMER(
+    CUSTOMERID VARCHAR(50) PRIMARY KEY,
+    FIRSTNAME VARCHAR(20) NOT NULL,
+    MIDDLENAME VARCHAR(20) DEFAULT NULL,
+    LASTNAME VARCHAR(20) NOT NULL,
+    DOB DATE NOT NULL,
+    SSN VARCHAR(100) NOT NULL,
+    PHONENUMBER VARCHAR(20) NOT NULL
+)' : "[object Object]" 
+#####
+
+#####
+Success running '
+CREATE TABLE IF NOT EXISTS USER(
+    USERID VARCHAR(50) PRIMARY KEY,
+    EMAIL VARCHAR(100) NOT NULL,
+    USERNAME VARCHAR(50) NOT NULL,
+    PASSW VARCHAR(100) NOT NULL,
+    CUSTOMERID VARCHAR(50) NOT NULL
+)' : "[object Object]" 
+#####
+
+#####
+Success running '
+CREATE TABLE IF NOT EXISTS CHECKINGACCOUNT(
+    ACCOUNTID VARCHAR(50) PRIMARY KEY,
+    ACCOUNTNO VARCHAR(20) NOT NULL,
+    CUSTOMERID VARCHAR(100) NOT NULL,
+    BALANCE FLOAT(10,0) NOT NULL
+)' : "[object Object]" 
+#####
+
+Success commiting transaction : "[object Object]"
+Successful creation of database
+[object Object]
+[object Object]
+[object Object]
+[object Object]
+[object Object]
+[object Object]
+Round 4 : account and customer creation successful Successful Opening of a Bank Account
+[object Object]
+[object Object]
+[object Object]
+[object Object]
+[object Object]
+[object Object]
+Round 4 : account and customer creation successful Successful Opening of a Bank Account
+[object Object]
+[object Object]
+[object Object]
+[object Object]
+[object Object]
+[object Object]
+Round 4 : account and customer creation successful Successful Opening of a Bank Account
+List of checking customers : [{"CUSTOMERID":"099bcde6-e574-4985-971f-b29e46c74efe","FIRSTNAME":"Rosalind","MIDDLENAME":"Reign","LASTNAME":"Stanton","DOB":"1967-09-05T00:00:00.000Z","SSN":"764406978","PHONENUMBER":"882-166-3846"},{"CUSTOMERID":"c51d8fdd-cd65-43eb-a770-8fb7623b3385","FIRSTNAME":"Kareem","MIDDLENAME":"Robin","LASTNAME":"Douglas","DOB":"1965-06-14T00:00:00.000Z","SSN":"653910484","PHONENUMBER":"392-085-0819"},{"CUSTOMERID":"f3fd61f8-c046-436e-99e5-df67392499d2","FIRSTNAME":"Belle","MIDDLENAME":"Sawyer","LASTNAME":"Wiegand","DOB":"1944-07-25T00:00:00.000Z","SSN":"575530995","PHONENUMBER":"032-892-1051"}]
+List of users : [{"USERID":"b9fec3c6-ee47-4f8c-b5fb-6fd08a5bfe2f","EMAIL":"Maddison_Rogahn@yahoo.com","USERNAME":"Beaulah44","PASSW":"L7YCcnY4jsBFV3L","CUSTOMERID":"099bcde6-e574-4985-971f-b29e46c74efe"},{"USERID":"d699e92a-4bd3-4b4b-82c6-819c6146b329","EMAIL":"Myrtie_Bernier32@gmail.com","USERNAME":"Tad.Fay13","PASSW":"bsyf_wS9zPP0usL","CUSTOMERID":"c51d8fdd-cd65-43eb-a770-8fb7623b3385"},{"USERID":"e0461888-4f2b-47c9-8b91-12457a6bcd89","EMAIL":"Larry78@gmail.com","USERNAME":"Carissa.Gutkowski","PASSW":"1LfYs_Vx__vmCWt","CUSTOMERID":"f3fd61f8-c046-436e-99e5-df67392499d2"}]
+List of checking accounts : [{"ACCOUNTID":"03627b64-e39d-4948-ab26-e1194cf9af21","ACCOUNTNO":"91462641289292152263","CUSTOMERID":"099bcde6-e574-4985-971f-b29e46c74efe","BALANCE":8315},{"ACCOUNTID":"b0162cb1-9781-4047-981e-61af80c4daf6","ACCOUNTNO":"65256819161879770720","CUSTOMERID":"f3fd61f8-c046-436e-99e5-df67392499d2","BALANCE":9411},{"ACCOUNTID":"f4641859-a4ea-4e44-87a3-93b2ffda197d","ACCOUNTNO":"88642181995676310841","CUSTOMERID":"c51d8fdd-cd65-43eb-a770-8fb7623b3385","BALANCE":1784}]
+List of checking customers : [{"CUSTOMERID":"099bcde6-e574-4985-971f-b29e46c74efe","FIRSTNAME":"Rosalind","MIDDLENAME":"Reign","LASTNAME":"Stanton","DOB":"1967-09-05T00:00:00.000Z","SSN":"764406978","PHONENUMBER":"882-166-3846"},{"CUSTOMERID":"c51d8fdd-cd65-43eb-a770-8fb7623b3385","FIRSTNAME":"Kareem","MIDDLENAME":"Robin","LASTNAME":"Douglas","DOB":"1965-06-14T00:00:00.000Z","SSN":"653910484","PHONENUMBER":"392-085-0819"},{"CUSTOMERID":"f3fd61f8-c046-436e-99e5-df67392499d2","FIRSTNAME":"Belle","MIDDLENAME":"Sawyer","LASTNAME":"Wiegand","DOB":"1944-07-25T00:00:00.000Z","SSN":"575530995","PHONENUMBER":"032-892-1051"}]
+List of users : [{"USERID":"b9fec3c6-ee47-4f8c-b5fb-6fd08a5bfe2f","EMAIL":"Maddison_Rogahn@yahoo.com","USERNAME":"Beaulah44","PASSW":"L7YCcnY4jsBFV3L","CUSTOMERID":"099bcde6-e574-4985-971f-b29e46c74efe"},{"USERID":"d699e92a-4bd3-4b4b-82c6-819c6146b329","EMAIL":"Myrtie_Bernier32@gmail.com","USERNAME":"Tad.Fay13","PASSW":"bsyf_wS9zPP0usL","CUSTOMERID":"c51d8fdd-cd65-43eb-a770-8fb7623b3385"},{"USERID":"e0461888-4f2b-47c9-8b91-12457a6bcd89","EMAIL":"Larry78@gmail.com","USERNAME":"Carissa.Gutkowski","PASSW":"1LfYs_Vx__vmCWt","CUSTOMERID":"f3fd61f8-c046-436e-99e5-df67392499d2"}]
+List of checking accounts : [{"ACCOUNTID":"03627b64-e39d-4948-ab26-e1194cf9af21","ACCOUNTNO":"91462641289292152263","CUSTOMERID":"099bcde6-e574-4985-971f-b29e46c74efe","BALANCE":8315},{"ACCOUNTID":"b0162cb1-9781-4047-981e-61af80c4daf6","ACCOUNTNO":"65256819161879770720","CUSTOMERID":"f3fd61f8-c046-436e-99e5-df67392499d2","BALANCE":9411},{"ACCOUNTID":"f4641859-a4ea-4e44-87a3-93b2ffda197d","ACCOUNTNO":"88642181995676310841","CUSTOMERID":"c51d8fdd-cd65-43eb-a770-8fb7623b3385","BALANCE":1784}]
+List of checking customers : [{"CUSTOMERID":"099bcde6-e574-4985-971f-b29e46c74efe","FIRSTNAME":"Rosalind","MIDDLENAME":"Reign","LASTNAME":"Stanton","DOB":"1967-09-05T00:00:00.000Z","SSN":"764406978","PHONENUMBER":"882-166-3846"},{"CUSTOMERID":"c51d8fdd-cd65-43eb-a770-8fb7623b3385","FIRSTNAME":"Kareem","MIDDLENAME":"Robin","LASTNAME":"Douglas","DOB":"1965-06-14T00:00:00.000Z","SSN":"653910484","PHONENUMBER":"392-085-0819"},{"CUSTOMERID":"f3fd61f8-c046-436e-99e5-df67392499d2","FIRSTNAME":"Belle","MIDDLENAME":"Sawyer","LASTNAME":"Wiegand","DOB":"1944-07-25T00:00:00.000Z","SSN":"575530995","PHONENUMBER":"032-892-1051"}]
+List of users : [{"USERID":"b9fec3c6-ee47-4f8c-b5fb-6fd08a5bfe2f","EMAIL":"Maddison_Rogahn@yahoo.com","USERNAME":"Beaulah44","PASSW":"L7YCcnY4jsBFV3L","CUSTOMERID":"099bcde6-e574-4985-971f-b29e46c74efe"},{"USERID":"d699e92a-4bd3-4b4b-82c6-819c6146b329","EMAIL":"Myrtie_Bernier32@gmail.com","USERNAME":"Tad.Fay13","PASSW":"bsyf_wS9zPP0usL","CUSTOMERID":"c51d8fdd-cd65-43eb-a770-8fb7623b3385"},{"USERID":"e0461888-4f2b-47c9-8b91-12457a6bcd89","EMAIL":"Larry78@gmail.com","USERNAME":"Carissa.Gutkowski","PASSW":"1LfYs_Vx__vmCWt","CUSTOMERID":"f3fd61f8-c046-436e-99e5-df67392499d2"}]
+List of checking accounts : [{"ACCOUNTID":"03627b64-e39d-4948-ab26-e1194cf9af21","ACCOUNTNO":"91462641289292152263","CUSTOMERID":"099bcde6-e574-4985-971f-b29e46c74efe","BALANCE":8315},{"ACCOUNTID":"b0162cb1-9781-4047-981e-61af80c4daf6","ACCOUNTNO":"65256819161879770720","CUSTOMERID":"f3fd61f8-c046-436e-99e5-df67392499d2","BALANCE":9411},{"ACCOUNTID":"f4641859-a4ea-4e44-87a3-93b2ffda197d","ACCOUNTNO":"88642181995676310841","CUSTOMERID":"c51d8fdd-cd65-43eb-a770-8fb7623b3385","BALANCE":1784}]

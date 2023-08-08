@@ -103,7 +103,7 @@ function createDatabase() {
         })
         .catch(errorOpeningSqlfile => console.log(`${errorOpeningSqlfile}`))
     });
-}
+} ;
 
 exports.createDatabase = createDatabase
 function generateRandomUser() {
@@ -112,6 +112,7 @@ function generateRandomUser() {
         EMAIL: faker.internet.email(),
         USERNAME: faker.internet.userName(),
         PASSW: faker.internet.password(),
+        CUSTOMERID: faker.string.uuid()
       };
 };
 exports.generateRandomUser = generateRandomUser ;
@@ -150,9 +151,9 @@ function newBankAccountForNewCustomer() {
         dbConnectionPromise = pool.getConnection();
         dbConnectionPromise
         .then(dbConn => {
-            /* start transactin */
+            /* start transaction */
             dbConn.beginTransaction().
-            then(r => console.log(r)).
+            then(r => console.log(`${r.toString()}`)).
             catch(e11 => {
                 console.log(e11);
                 reject(e11);
@@ -160,7 +161,7 @@ function newBankAccountForNewCustomer() {
 
             /* Select the database being used */
             dbConn.query("USE `ONLINEBANKING`").
-            then(r => console.log(r)).
+            then(r => console.log(`${r.toString()}`)).
             catch(e111 => {
                 console.log(e111);
                 reject(e111);
@@ -177,29 +178,31 @@ function newBankAccountForNewCustomer() {
                 customerObject["SSN"],
                 customerObject["PHONENUMBER"]
             ]).
-            then(r => console.log(r)).
+            then(r => console.log(`${r.toString()}`)).
             catch(e12 => {
                 console.log(e12);
                 dbConn.rollback();
                 reject(e12);
             });
 
-            /* Then insert a new user */
+            /* Then insert a new user for this customer */
             var userObject = generateRandomUser();
-            dbConn.query("INSERT INTO USER VALUES(?,?,?,?)", [
+            userObject["CUSTOMERID"] = customerObject["CUSTOMERID"];
+            dbConn.query("INSERT INTO USER VALUES(?,?,?,?,?)", [
                 userObject["USERID"],
                 userObject["EMAIL"],
                 userObject["USERNAME"],
-                userObject["PASSW"]
+                userObject["PASSW"],
+                userObject["CUSTOMERID"]
             ]).
-            then(r => console.log(r)).
+            then(r => console.log(`${r.toString()}`)).
             catch(e13 => {
                 console.log(e13);
                 dbConn.rollback();
                 reject(e13);
             })
 
-            /* Insert a new account number for customer */
+            /* Insert a new account number for this customer */
             var account = generateNewAccount();
             account["CUSTOMERID"] = customerObject["CUSTOMERID"];
 
@@ -209,13 +212,18 @@ function newBankAccountForNewCustomer() {
                 account["CUSTOMERID"],
                 account["BALANCE"]
             ]).
-            then(r => console.log(r)).
+            then(r => console.log(`${r.toString()}`)).
             catch(e131 => {
                 console.log(e131);
                 dbConn.rollback();
                 reject(e131);
             });
 
+            /* Insert some random rejection */
+            if (faker.number.int({min:1, max:10}) % 2 == 0 ){
+                dbConn.rollback();
+                reject("We only accept odd generated random numbers");
+            }
             /* Finally End transaction */
             dbConn.commit().
             then((resCommit) => {
@@ -235,7 +243,27 @@ function newBankAccountForNewCustomer() {
 
     });
 } ;
-exports.newBankAccountForNewCustomer = newBankAccountForNewCustomer
+exports.newBankAccountForNewCustomer = newBankAccountForNewCustomer ;
+
+function getAllDataFromTable(tableName="USER"){
+    return new Promise((resolve, reject) => {
+        const pool = getMariaDbPool();
+        dbConnectionPromise = pool.getConnection();
+        dbConnectionPromise
+        .then(dbConn => {
+            dbConn.query("USE `ONLINEBANKING`"). 
+            then(r => {
+                dbConn.query(`SELECT * FROM ${tableName}`).
+                then(rows => resolve(rows)).
+                catch(error => reject(error)) ;
+            }). 
+            catch(err => reject(err));
+          
+        }).
+        catch(e => reject(e));
+    });
+};
+exports.getAllDataFromTable = getAllDataFromTable;
 
 
 
