@@ -61,20 +61,6 @@ char * encrypt(char * key, ushort keySize, char * plainText, ushort plainTextSiz
 
 }
 
-void printAlphabet() {
-    char k = A ;
-    char i; 
-    int j ;
-    for (i=A; i <= Z ; i++) {
-        printf("| %c |",i);
-
-        for (j=0; j < 26 ; j++)
-            printf(" %c |", ((i + j) % 26) + A );
-        k++;
-        
-        printf("\n");
-    }
-}
 
 char * decrypt(char * sameSizeKey, ushort keySize, char * cipherText, ushort cipherTextSize ) {
     /* 

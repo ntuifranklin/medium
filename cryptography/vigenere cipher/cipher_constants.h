@@ -2,6 +2,7 @@
 #define MAXTEXTSIZE SHRT_MAX
 #define ENCIPHER "-e"
 #define DECIPHER "-d"
+#define OPTION_SIZE 3
 
 
 /* Accepted alphabet */

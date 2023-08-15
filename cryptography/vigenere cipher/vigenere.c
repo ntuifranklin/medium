@@ -3,49 +3,57 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <limits.h>
-
 #include "cipher_constants.h"
 #include "utilities.h"
 
 int main(int argc, char * argv[]) {
     int i ;
-    char plainText[MAXTEXTSIZE] ;
+    char givenText[MAXTEXTSIZE] ;
+    char * plainText ;
     char key[MAXTEXTSIZE] ;
-    char * generatedKey = NULL ;
+    char option[OPTION_SIZE] ;
+    char * generatedKey  ;
+    char * cipherText ;
+    char * decryptedText ;
+    if (argc != 4 ) {
+        printf("\nUsage %s -e | -d encryption_key text_to_encrypt/decrypt\n", argv[0]);
+        return EXIT_FAILURE;
+    } else if (  (strncmp(argv[1], ENCIPHER, (OPTION_SIZE-1)) != 0 && strncmp(argv[1], DECIPHER, (OPTION_SIZE-1)) != 0 ) ) {
 
-    char * cipherText = NULL;
-
-
-    
-    if (argc != 3 ) {
-        
-        printf("\nUsage %s <encryption_key> <text_to_encrypt>\n\n", argv[0]);
+        printf("\nUsage %s -e | -d encryption_key text_to_encrypt/decrypt\n", argv[0]);
         return EXIT_FAILURE;
     }
-    
-    printf("%d",CRYPTABET_SIZE);
-    /* fill both key and plain text with null bytes */
-    memset(plainText, MAXTEXTSIZE, '\0');
+
+    /* fill both option, key and plain text with null bytes */
+    memset(option, OPTION_SIZE, '\0');
     memset(key, MAXTEXTSIZE, '\0');
+    memset(givenText, MAXTEXTSIZE, '\0');
 
     /* copy at most MAXTEXTSIZE-1 characters from command line options to key and plain text respectfully */
-    strncpy(key, argv[1], (MAXTEXTSIZE-1));
-    strncpy(plainText, argv[2], (MAXTEXTSIZE-1));
+    strncpy(option, argv[1], (OPTION_SIZE-1));
+    strncpy(key, argv[2], (MAXTEXTSIZE-1));
+    strncpy(givenText, argv[3], (MAXTEXTSIZE-1));
 
-    generatedKey = generateSameSizeKey(key, strlen(key), strlen(plainText)) ;
+    generatedKey = generateSameSizeKey(key, strlen(key), strlen(givenText)) ;
 
-    cipherText = encrypt(key, strlen(key), plainText, strlen(plainText));
-    printf("Plain Text: %s\n", plainText);
-    printf("Key : %s\n", key);
-    printf("Cipher Text : %s\n", cipherText);
-    printf("Generated Key : %d\n", generatedKey);
-    printf("Decrypting Cipher Text %s\n", cipherText);
-
-    char * decryptedText = decrypt(generatedKey, strlen(generatedKey), cipherText, strlen(cipherText));
-
-    printf("Decrypted Text %s\n", decryptedText);
-
-
+    if (strncmp(option, ENCIPHER, (OPTION_SIZE-1)) == 0) {
+        
+        generatedKey = generateSameSizeKey(key, strlen(key), strlen(givenText)) ;
+        cipherText = encrypt(key, strlen(key), givenText, strlen(givenText));
+        printf("Plain Text: %s\n", givenText);
+        printf("Key : %s\n", key);
+        printf("Generated Key : %d\n", generatedKey);
+        printf("Cipher Text : %s\n", cipherText);
+        
+    } else {
+        
+        decryptedText = decrypt(generatedKey, strlen(generatedKey), givenText, strlen(givenText));
+        printf("Cipher Text: %s\n", givenText);
+        printf("Key : %s\n", key);
+        printf("Generated Key : %d\n", generatedKey);
+        
+        printf("Decrypted Cipher Text %s\n", decryptedText);
+    }
     
     return EXIT_SUCCESS;
 }
