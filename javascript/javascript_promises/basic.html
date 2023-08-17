@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script>
+            var promiseMeAnEvenNumber = new Promise(function (resolve,reject){
+                var floatingNumber = Math.random();
+                var y = Math.ceil(floatingNumber * 999.0 );
+                console.log(`Generated ${floatingNumber}`);
+                if ( y % 2 == 0 )
+                    resolve(y);
+                else
+                    reject(Error(`Sorry Even Number Not Generated: ${y}`));
+                
+            });
+            
+        </script>
+    </head>
+<body>
+
+    <script>
+        
+        promiseMeAnEvenNumber
+            .then(number => document.write(`We got ${number} as the promised output `))
+            .catch(e => document.write(` ${e} `));
+    </script>
+
+</body>
+</html>

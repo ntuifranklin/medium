@@ -1,0 +1,12 @@
+{
+  "name": "medium_tutorial_javascript_promises",
+  "version": "1.0.0",
+  "description": "Shows how to use javascript promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Franklin Nkokam Ngongang",
+  "license": "MIT",
+  "devDependencies": {}
+}
