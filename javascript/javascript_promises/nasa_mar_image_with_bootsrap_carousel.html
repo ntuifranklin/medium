@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        
+        
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+     
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+   </head>
+<body>
+    <div class="container-fluid">
+        <div class="text-center">
+            <div class="spinner-grow" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div id='nasaImagesCarousel' class='carousel slide' data-ride='carousel'>
+           
+        </div>        
+        <script>     
+            $(document).ready(()=> {                       
+                
+                let mainSpinner = document.getElementsByClassName('spinner-grow')
+                [0];
+                //mainSpinner.style.display = 'none';
+                /* Nasa images url listing  */     
+                function getNASA_MArsImages() {
+                    return new Promise(async(resolve,reject) => {
+                        try{
+                                
+                                
+                                mainSpinner.style.display = 'block';
+                                let apiKey = `XM4XQBZ4LUqtfdYKFLZNskrk8R1v7Jecvdg3R9Pn`;
+                                var url = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${apiKey}`;
+
+                                const response = await fetch(url);
+                                const jsonData = await response.json();
+
+                                resolve(jsonData);
+
+                        } catch(e) {
+                                reject(e);
+                        }
+
+                    });
+                }
+                    
+                getNASA_MArsImages().
+                then(async (jsonData) => {
+                    let photos = await jsonData["photos"];
+                    //let divCarouselNasaImages = $("#nasaImagesCarousel");
+                    let innerHtml = "";
+                    innerHtml += "<div class='carousel-inner'>";
+                    for(let i=0; i < photos.length; i++) {
+                    
+                        innerHtml += "<div class='carousel-item active'>";
+                        /* The Id of the image */
+                        innerHtml += `<img src='${photos[i].img_src}' alt='Image ${photos[i].id}'>`;
+                        innerHtml += "</div>";
+                    }   
+                    innerHtml += '</div>';
+                    innerHtml += `
+                        <a class='carousel-control-prev' href='#nasaImagesCarousel' role='button' data-slide='prev'>
+                        <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                        <span class='sr-only'>Previous</span>
+                        </a>
+                        <a class='carousel-control-next' href='#nasaImagesCarousel' role='button' data-slide='next'>
+                        <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                        <span class='sr-only'>Next</span>
+                        </a>
+                    </div>
+                    `;
+                    //divCarouselNasaImages.innerHTML = innerHtml ;
+                    mainSpinner.style.display = 'none';
+                    document.getElementById('nasaImagesCarousel').innerHTML =  innerHtml ;
+                }).
+                catch(e => console.log(e));
+                    
+
+            })
+        </script>
+    </div>
+</body>
+</html>
